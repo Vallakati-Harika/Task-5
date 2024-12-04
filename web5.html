@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Food Delight</h1>
+    </header>
+    <main>
+        <section class="products">
+            <div class="product">
+                <img src="burger.jpg" alt="Burger">
+                <h2>Burger</h2>
+                <p>$5.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </div>
+            <div class="product">
+                <img src="pizza.webp" alt="Pizza">
+                <h2>Pizza</h2>
+                <p>$8.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </div>
+            <div class="product">
+                <img src="pasta.avif" alt="Pasta">
+                <h2>Pasta</h2>
+                <p>$6.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </section>
+        <section class="cart">
+            <h2>Shopping Cart</h2>
+            <ul id="cart-items"></ul>
+            <p id="total-price">Total: $0.00</p>
+            <button id="checkout">Checkout</button>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 Food Delight. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>/* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+    }
+    
+    header {
+        text-align: center;
+        padding: 20px;
+        background-color: #1f1f1f;
+        border-bottom: 2px solid #444;
+    }
+    
+    main {
+        padding: 20px;
+    }
+    
+    .products, .cart {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-bottom: 30px;
+    }
+    
+    .product, .cart {
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #1e1e1e;
+        margin: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+    }
+    
+    .product img {
+        width: 200px;
+        height: 150px;
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto 10px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    button:hover {
+        background-color: #ff5722;
+        transform: scale(1.05);
+    }
+    
+    .add-to-cart {
+        background-color: #4caf50;
+        color: #fff;
+        margin-right: 10px;
+    }
+    
+    .buy-now {
+        background-color: #ff9800;
+        color: #fff;
+    }
+    
+    #checkout {
+        background-color: #d32f2f;
+        color: #fff;
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #1f1f1f;
+        border-top: 2px solid #444;
+    }
+     
+    </style>
+    <script>
+        let cart = [];
+const cartItems = document.getElementById('cart-items');
+const totalPrice = document.getElementById('total-price');
+
+document.querySelectorAll('.add-to-cart').forEach((button, index) => {
+    button.addEventListener('click', () => addToCart(index));
+});
+
+document.querySelectorAll('.buy-now').forEach((button, index) => {
+    button.addEventListener('click', () => buyNow(index));
+});
+
+function addToCart(index) {
+    const product = getProductData(index);
+    cart.push(product);
+    updateCart();
+    alert(`${product.name} added to the cart!`);
+}
+
+function buyNow(index) {
+    const product = getProductData(index);
+    alert(`Proceed to checkout for ${product.name} - $${product.price}`);
+}
+
+function updateCart() {
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach((item) => {
+        total += item.price;
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        cartItems.appendChild(li);
+    });
+    totalPrice.textContent = `Total: $${total.toFixed(2)}`;
+}
+
+function getProductData(index) {
+    const productElements = document.querySelectorAll('.product');
+    const product = productElements[index];
+    const name = product.querySelector('h2').textContent;
+    const price = parseFloat(product.querySelector('p').textContent.slice(1));
+    return { name, price };
+}
+
+document.getElementById('checkout').addEventListener('click', () => {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+    } else {
+        alert('Proceeding to checkout...');
+        cart = [];
+        updateCart();
+    }
+});
+
+        </script>
